@@ -1,12 +1,16 @@
 import os
 
-
 class Authorization:
-    def __init__(self,user:str,
+    """
+    dbClient/base/authorization
+    """
+    def __init__(self,
+                 user:str,
                  password:str,
                  host:str,
                  port:int,
-                 connector_type:str='pymysql',db_type:str='mysql'):
+                 connector_type:str='pymysql',
+                 db_type:str='mysql'):
         self.user            = user
         self.password        = password
         self.db_type         = db_type
@@ -19,8 +23,15 @@ class Authorization:
         obj = cls(user     = os.environ.get('DB_UN'),
                   password = os.environ.get('DB_PW'),
                   host     = os.environ.get('DB_HOST'),
-                  port     = os.environ.get('DB_PORT'),
-                  database = 'jupiterdb')
+                  port     = os.environ.get('DB_PORT'))
+        return obj
+    
+    @classmethod
+    def fromDict(cls,configDict):
+        obj = cls(user     = configDict.get('user'),
+                  password = configDict.get('password'),
+                  host     = configDict.get('host'),
+                  port     = configDict.get('port'))
         return obj
     
     @property
@@ -38,4 +49,3 @@ class Authorization:
         msg += f"{hdr['user']}:{hdr['password']}@"
         msg += f"{hdr['host']}:{hdr['port']}/{database}"
         return msg
-    
