@@ -9,8 +9,8 @@ class Authorization:
                  password:str,
                  host:str,
                  port:int,
-                 connector_type:str='pymysql',
-                 db_type:str='mysql'):
+                 db_type:str='mysql',
+                 connector_type:str='pymysql'):
         self.user            = user
         self.password        = password
         self.db_type         = db_type
@@ -33,19 +33,9 @@ class Authorization:
                   host     = configDict.get('host'),
                   port     = configDict.get('port'))
         return obj
-    
-    @property
-    def header(self):
-        return {'user':self.user,
-                'password':self.password,
-                'db_type':self.db_type,
-                'connector_type':self.connector_type,
-                'host':self.host,
-                'port':self.port}
 
     def uri(self,database):
-        hdr = self.header
-        msg  = f"{hdr['db_type']}+{hdr['connector_type']}://"
-        msg += f"{hdr['user']}:{hdr['password']}@"
-        msg += f"{hdr['host']}:{hdr['port']}/{database}"
+        msg  = f"{self.db_type}+{self.connector_type}://"
+        msg += f"{self.user}:{self.password}@"
+        msg += f"{self.host}:{self.port}/{database}"
         return msg

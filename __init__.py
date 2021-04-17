@@ -1,2 +1,1 @@
-# -*- coding: utf-8 -*-
-
+# entire project is in a non-operational state
